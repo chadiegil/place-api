@@ -2,6 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -9,14 +10,21 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+require("dotenv").config();
+
+// Now you can access your environment variables:
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
+const database = process.env.DATABASE;
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",
-  password: "secret",
-  database: "place_api",
+  user: dbUser,
+  password: dbPass,
+  database: database,
 });
 
 db.connect((err) => {
